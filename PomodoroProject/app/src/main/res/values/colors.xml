@@ -11,5 +11,6 @@
     <color name="progress_bar">#ff4351</color>
     <color name="progress_bar1">#ff5f5f</color>
     <color name="progress_bar2">@color/progress_bar</color>
-    <color name="progress_text">#FF4351</color>
+    <color name="progress_text_red">#FF4351</color>
+    <color name="progress_text_gray">#9e9e9e</color>
 </resources>

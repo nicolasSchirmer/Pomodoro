@@ -26,7 +26,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:padding="60dp"
-        android:textAlignment="center"
         app:cpv_autoTextSize="true"
         app:cpv_barColor="@color/progress_bar"
         app:cpv_barColor1="@color/progress_bar1"
@@ -35,17 +34,16 @@
         app:cpv_maxValue="100"
         app:cpv_rimColor="@color/progress_rim"
         app:cpv_rimWidth="5dp"
-        app:cpv_seekMode="true"
         app:cpv_text="24:59"
-        app:cpv_textColor="@color/progress_text"
+        app:cpv_textColor="@color/progress_text_gray"
+        android:textAlignment="center"
         app:cpv_textMode="Text"
         app:cpv_textScale="1"
-        app:cpv_value="100"
+        app:cpv_value="0"
         app:layout_constraintBottom_toTopOf="@+id/include"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <include
         android:id="@+id/include"
