@@ -2,12 +2,21 @@ package com.nschirmer.pomodoro.model;
 
 import java.sql.Timestamp;
 
-public class Pomodoro {
+public class PomodoroTask {
 
+    private String title;
     private Timestamp whenEnded;
 
-    public Pomodoro(){
+    public PomodoroTask(){
 
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Timestamp getWhenEnded() {
