@@ -20,5 +20,6 @@
     <string name="history_lit_item_stopped">Stopped</string>
     <string name="history_lit_item_today">Today</string>
     <string name="history_lit_item_yesterday">Yesterday</string>
+    <string name="history_list_item_time_spent">%1$dm</string>
 
 </resources>

@@ -25,12 +25,13 @@ Accordingly to [Wikipedia](https://en.wikipedia.org/wiki/Pomodoro_Technique). Th
 - [ ] Organize tasks by subject
 - [ ] Scheduler and reminders
 - [ ] Better animations
+- [ ] Google Account / Facebook / email  integration to save the tasks into the cloud
 
 
 
 ### Screenshots
 
-<img src="Screenshots/1.png" width="30%"> <img src="Screenshots/2.png" width="0%"> <img src="Screenshots/3.png" width="30%"> <img src="Screenshots/4.png" width="20%">
+<img src="Screenshots/1.png" width="30%"> <img src="Screenshots/2.png" width="0%"> <img src="Screenshots/2.png" width="30%"><img src="Screenshots/3.png" width="30%"> <img src="Screenshots/4.png" width="30%">
 
 
 
