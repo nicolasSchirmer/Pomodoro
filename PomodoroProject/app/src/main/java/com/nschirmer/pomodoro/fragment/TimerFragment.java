@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nschirmer.pomodoro.R;
 import com.nschirmer.pomodoro.util.Utils;
@@ -91,6 +92,12 @@ public class TimerFragment extends Fragment {
         titleText.setVisibility(View.GONE);
         titleEdit.setVisibility(View.VISIBLE);
         titleEdit.setText("");
+
+        if(saveIntoDatabase){
+
+        } else {
+            Toast.makeText(getContext(), R.string.timer_canceled, Toast.LENGTH_SHORT).show();
+        }
     }
 
 

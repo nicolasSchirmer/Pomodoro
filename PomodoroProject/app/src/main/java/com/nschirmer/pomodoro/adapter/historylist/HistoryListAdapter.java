@@ -24,19 +24,38 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
 
     @Override
+    public int getItemViewType(int position) {
+        // TODO
+        return 1;
+    }
+
+
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolderHistoryListTask(LayoutInflater.from(context).inflate(R.layout.fragment_history_list_item, parent, false));
+        switch (HistoryListViewType.values()[viewType]){
+            case HEADER:
+                return new ViewHolderHistoryListHeader(LayoutInflater.from(context).inflate(R.layout.fragment_history_list_item_header, parent, false));
+
+            default:
+                return new ViewHolderHistoryListTask(LayoutInflater.from(context).inflate(R.layout.fragment_history_list_item, parent, false));
+        }
     }
 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        
+        switch (HistoryListViewType.values()[holder.getItemViewType()]){
+            case HEADER:
+                break;
+
+            default:
+                break;
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return pomodoroTasks.size();
+        return 9;
     }
 }

@@ -10,7 +10,7 @@ public class ViewHolderHistoryListHeader extends RecyclerView.ViewHolder{
 
     private TextView headerTitle;
 
-    public ViewHolderHistoryListHeader(View itemView) {
+    ViewHolderHistoryListHeader(View itemView) {
         super(itemView);
 
         headerTitle = (TextView) itemView.findViewById(R.id.fragment_history_list_header_title);
