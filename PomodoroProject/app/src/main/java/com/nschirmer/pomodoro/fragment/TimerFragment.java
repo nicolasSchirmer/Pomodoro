@@ -73,7 +73,11 @@ public class TimerFragment extends Fragment {
         isRunning = true;
         cancelButton.setVisibility(View.VISIBLE);
         playPauseButton.setImageResource(R.drawable.ic_pause);
-        circleProgressView.setValue(100);
+        circleProgressView.setValue(90);
+
+        // todo
+        circleProgressView.setText("23:59");
+
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_red));
         String title = titleEdit.getText().toString();
         titleText.setText(title.isEmpty() ? getString(R.string.timer_title_default) : title);
@@ -88,6 +92,10 @@ public class TimerFragment extends Fragment {
         cancelButton.setVisibility(View.GONE);
         playPauseButton.setImageResource(R.drawable.ic_play);
         circleProgressView.setValue(0);
+
+        // todo
+        circleProgressView.setText("25:00");
+
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_gray));
         titleText.setVisibility(View.GONE);
         titleEdit.setVisibility(View.VISIBLE);
