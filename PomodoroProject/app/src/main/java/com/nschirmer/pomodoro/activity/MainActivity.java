@@ -1,4 +1,4 @@
-package com.nschirmer.pomodoro;
+package com.nschirmer.pomodoro.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import com.nschirmer.pomodoro.R;
+import com.nschirmer.pomodoro.fragment.HistoryFragment;
+import com.nschirmer.pomodoro.fragment.TimerFragment;
+import com.nschirmer.pomodoro.util.Dictionary;
+import com.nschirmer.pomodoro.util.FragmentHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Fragment fragmentOpenned;
+    private FragmentHelper fragmentOpened;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        fragmentOpenned = new TimerFragment();
-        startFragment(fragmentOpenned, "timer");
+        startFragment(new FragmentHelper(new TimerFragment(), Dictionary.FRAGMENT_TAG_TIMER));
     }
 
 
@@ -32,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.bottommenu_timer:
-                    startFragment(new TimerFragment(), "timer");
+                    startFragment(new FragmentHelper(new TimerFragment(), Dictionary.FRAGMENT_TAG_TIMER));
                     return true;
                 case R.id.bottommenu_history:
+                    startFragment(new FragmentHelper(new HistoryFragment(), Dictionary.FRAGMENT_TAG_HISTORY));
                     return true;
             }
             return false;
@@ -42,10 +47,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private void startFragment(Fragment fragment, String fragmentTag){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_container, fragment, fragmentTag);
-        fragmentTransaction.commitAllowingStateLoss();
+    private void startFragment(FragmentHelper fragmentHelper){
+        if(fragmentOpened == null || !fragmentHelper.equals(fragmentOpened)) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_fragment_container, fragmentHelper.getFragment(), fragmentHelper.getTag());
+            fragmentTransaction.commitAllowingStateLoss();
+
+            fragmentOpened = fragmentHelper;
+        }
     }
 
 }

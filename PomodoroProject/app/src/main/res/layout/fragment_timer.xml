@@ -18,7 +18,7 @@
 
 
     <at.grabner.circleprogress.CircleProgressView
-        android:id="@+id/circleView"
+        android:id="@+id/timer_circleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -34,7 +34,7 @@
         app:cpv_maxValue="100"
         app:cpv_rimColor="@color/progress_rim"
         app:cpv_rimWidth="5dp"
-        app:cpv_text="24:59"
+        app:cpv_text="@string/timer_progress_default_text"
         app:cpv_textColor="@color/progress_text_gray"
         android:textAlignment="center"
         app:cpv_textMode="Text"

@@ -1,8 +1,10 @@
-package com.nschirmer.pomodoro;
+package com.nschirmer.pomodoro.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.nschirmer.pomodoro.activity.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
