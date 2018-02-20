@@ -1,6 +1,5 @@
 package com.nschirmer.pomodoro.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,7 +74,8 @@ public class TimerFragment extends Fragment {
         playPauseButton.setImageResource(R.drawable.ic_pause);
         circleProgressView.setValue(100);
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_red));
-        titleText.setText(titleEdit.getText().toString());
+        String title = titleEdit.getText().toString();
+        titleText.setText(title.isEmpty() ? getString(R.string.timer_title_default) : title);
         titleText.setVisibility(View.VISIBLE);
         titleEdit.setVisibility(View.GONE);
         Utils.hideKeyboard(getContext(), titleEdit);
