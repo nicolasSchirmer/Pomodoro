@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gigamole.library.ShadowLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ndroid="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:sl_shadowed="true"
+    app:sl_shadow_angle="45"
+    app:sl_shadow_radius="3dp"
+    app:sl_shadow_distance="2dp"
+    app:sl_shadow_color="@color/gray">
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_round_white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/timer_control_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="32dp"
+            ndroid:background="@android:color/transparent"
+            android:tint="@color/colorPrimary"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_pause" />
+
+        <ImageView
+
+            android:id="@+id/timer_control_button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="64dp"
+            ndroid:background="@android:color/transparent"
+            android:tint="@color/colorPrimary"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_cancel" />
+
+    </LinearLayout>
+</com.gigamole.library.ShadowLayout>
