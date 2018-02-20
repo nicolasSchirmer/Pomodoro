@@ -1,4 +1,4 @@
-<img src="Assets/appicon.png" style="zoom:8%"><img src="Assets/banner.png" style="zoom:35%"><img src="Assets/bugdroid.png" style="zoom:50%">
+<img src="Assets/appicon.png" width="15%"><img src="Assets/banner.png" width="50%"><img src="Assets/bugdroid.png" width="13%">
 
 # Pomodoro
 
@@ -19,23 +19,18 @@ Accordingly to [Wikipedia](https://en.wikipedia.org/wiki/Pomodoro_Technique). Th
 - Control your task just using the notification area
 
 
+### TO-DOS
 
-#### TO-DOS
-
--[ ] More flexible maximum time
--[ ] Organize tasks by subject
--[ ] Scheduler and reminders
--[ ] Better animations
+- [ ] More flexible maximum time
+- [ ] Organize tasks by subject
+- [ ] Scheduler and reminders
+- [ ] Better animations
 
 
 
 ### Screenshots
 
-<img src="Screenshots/1.png" style="zoom:20%"> <img src="Screenshots/2.png" style="zoom:20%"> 
-
-
-
-<img src="Screenshots/3.png" style="zoom:20%"> <img src="Screenshots/4.png" style="zoom:20%">
+<img src="Screenshots/1.png" width="30%"> <img src="Screenshots/2.png" width="0%"> <img src="Screenshots/3.png" width="30%"> <img src="Screenshots/4.png" width="20%">
 
 
 
@@ -47,7 +42,6 @@ Just follow the steaps bellow to install the app on your phone and you're good t
 - Allow (at least once) unknown sources to install apps. (a pop-up will appear) 
 - Click on install
 - Enjoy!
-
 
 
 
