@@ -25,7 +25,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+
         // TODO
+        if(position == 0) return 0;
+
         return 1;
     }
 
@@ -56,6 +59,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 9;
+        // TODO calcular quantidade de headers
+        return pomodoroTasks.size() +1;
     }
 }

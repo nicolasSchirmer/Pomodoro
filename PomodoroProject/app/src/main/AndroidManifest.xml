@@ -9,6 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <service android:name=".service.CountdownService"/>
+
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme"
