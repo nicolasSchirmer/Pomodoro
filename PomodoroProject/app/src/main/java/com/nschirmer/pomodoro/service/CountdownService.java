@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import com.nschirmer.pomodoro.db.HelperDB;
 import com.nschirmer.pomodoro.model.PomodoroTask;
 import com.nschirmer.pomodoro.util.Utils;
-import com.pacoworks.rxpaper2.RxPaperBook;
 
 import static com.nschirmer.pomodoro.util.Dictionary.*;
 
@@ -50,13 +49,20 @@ public class CountdownService extends Service {
                         SERVICE_COUNTDOWN_INTENT_TICK,
                         millisSpent
                 );
+
+                sendBroadcast(intentForActivity);
             }
 
             @Override
             public void onFinish() {
+                intentForActivity.putExtra(SERVICE_COUNTDOWN_INTENT_FINISHED, true);
+                sendBroadcast(intentForActivity);
+
                 if(pomodoroTask.hasValidTaskToSave()) {
                     HelperDB.saveIntoDB(pomodoroTask);
                 }
+
+                countDownTimer.cancel();
             }
         }.start();
     }

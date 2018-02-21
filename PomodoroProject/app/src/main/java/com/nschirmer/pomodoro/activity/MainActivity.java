@@ -3,7 +3,6 @@ package com.nschirmer.pomodoro.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -13,6 +12,7 @@ import com.nschirmer.pomodoro.fragment.HistoryFragment;
 import com.nschirmer.pomodoro.fragment.TimerFragment;
 import com.nschirmer.pomodoro.util.Dictionary;
 import com.nschirmer.pomodoro.util.FragmentHelper;
+import com.nschirmer.pomodoro.util.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // save in minutes the default task time
+        Utils.saveMaxMilliTaskTime(this, Utils.minutesToMilliseconds(1));
 
         startFragment(new FragmentHelper(new TimerFragment(), Dictionary.FRAGMENT_TAG_TIMER));
     }

@@ -31,7 +31,7 @@ Accordingly to [Wikipedia](https://en.wikipedia.org/wiki/Pomodoro_Technique). Th
 
 ### Screenshots
 
-<img src="Screenshots/1.png" width="30%"> <img src="Screenshots/2.png" width="0%"> <img src="Screenshots/2.png" width="30%"><img src="Screenshots/3.png" width="30%"> <img src="Screenshots/4.png" width="30%">
+<img src="Screenshots/1.png" width="30%"> <img src="Screenshots/2.png" width="0%"> <img src="Screenshots/2.png" width="30%"> <img src="Screenshots/3.png" width="30%">  <img src="Screenshots/4.png" width="30%">
 
 
 
@@ -44,6 +44,16 @@ Just follow the steaps bellow to install the app on your phone and you're good t
 - Click on install
 - Enjoy!
 
+
+
+
+### Open source librarys used
+
+[RxPaper2](https://github.com/pakoito/RxPaper2) - An awesome noSQL library.
+
+[CircleView](https://github.com/jakob-grabner/Circle-Progress-View) - Used for the circular prorgress bar.
+
+[ShadowLayout](https://github.com/Devlight/ShadowLayout) - A magical library to use shadows with colors.
 
 
 

@@ -108,7 +108,7 @@ public class HelperDB extends PaperHelper {
     public static List<PomodoroTask> getAllPomodoroTasksFromDB(){
         keysToRead.clear();
         keysToRead = getAllPomodoroTasksKeysFromDB();
-        return getPomodoroTasksFromPaper(new ArrayList<Pomodoro Task>());
+        return getPomodoroTasksFromPaper(new ArrayList<PomodoroTask>());
     }
 
 

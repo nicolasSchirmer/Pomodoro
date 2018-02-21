@@ -1,6 +1,12 @@
 package com.nschirmer.pomodoro.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nschirmer.pomodoro.R;
+import com.nschirmer.pomodoro.service.CountdownService;
+import com.nschirmer.pomodoro.util.Dictionary;
 import com.nschirmer.pomodoro.util.Utils;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -24,9 +32,10 @@ public class TimerFragment extends Fragment {
     private ImageView playPauseButton, cancelButton;
     private EditText titleEdit;
     private TextView titleText;
-
+    private Intent countDownServiceIntent;
 
     boolean isRunning = false;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +46,8 @@ public class TimerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        countDownServiceIntent = new Intent(getContext(), CountdownService.class);
+
         circleProgressView = (CircleProgressView) view.findViewById(R.id.timer_circleView);
         playPauseButton = (ImageView) view.findViewById(R.id.timer_control_play_pause);
         playPauseButton.setOnClickListener(buttonsControlClickListener);
@@ -45,6 +56,9 @@ public class TimerFragment extends Fragment {
 
         titleEdit = (EditText) view.findViewById(R.id.timer_editText);
         titleText = (TextView) view.findViewById(R.id.timer_title);
+
+        String maxTimeFormatted = Utils.millisecondsToFormattedString(Utils.getMaxMilliTaskTime(getActivity()));
+        circleProgressView.setText(maxTimeFormatted);
     }
 
 
@@ -54,7 +68,7 @@ public class TimerFragment extends Fragment {
             switch (view.getId()){
                 case R.id.timer_control_play_pause:
                     if(isRunning){
-                        stopCountDown(true);
+                        stopCountDown(false);
 
                     } else{
                         startCountDown();
@@ -62,7 +76,7 @@ public class TimerFragment extends Fragment {
                     break;
 
                 case R.id.timer_control_cancel:
-                    stopCountDown(false);
+                    stopCountDown(true);
                     break;
             }
         }
@@ -73,40 +87,69 @@ public class TimerFragment extends Fragment {
         isRunning = true;
         cancelButton.setVisibility(View.VISIBLE);
         playPauseButton.setImageResource(R.drawable.ic_pause);
-        circleProgressView.setValue(90);
-
-        // todo
-        circleProgressView.setText("23:59");
-
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_red));
         String title = titleEdit.getText().toString();
         titleText.setText(title.isEmpty() ? getString(R.string.timer_title_default) : title);
+        title = titleText.getText().toString();
         titleText.setVisibility(View.VISIBLE);
         titleEdit.setVisibility(View.GONE);
         Utils.hideKeyboard(getContext(), titleEdit);
+
+        // start the countdown
+        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_TITLE , title);
+        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_MAXTIME, Utils.getMaxMilliTaskTime(getActivity()));
+        getActivity().startService(countDownServiceIntent);
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Dictionary.SERVICE_COUNTDOWN_TAG));
     }
 
 
-    private void stopCountDown(boolean saveIntoDatabase){
+    // receive the time update from the countdownService
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getExtras() != null){
+                updateTimer(intent.getLongExtra(
+                        Dictionary.SERVICE_COUNTDOWN_INTENT_TICK,
+                        Utils.getMaxMilliTaskTime(getActivity()))
+                );
+
+
+                if(intent.getBooleanExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_FINISHED, false)){
+                    stopCountDown(false);
+                }
+            }
+        }
+    };
+
+
+    private void stopCountDown(boolean canceled){
         isRunning = false;
+
+        getActivity().stopService(countDownServiceIntent);
+
         cancelButton.setVisibility(View.GONE);
         playPauseButton.setImageResource(R.drawable.ic_play);
         circleProgressView.setValue(0);
-
-        // todo
-        circleProgressView.setText("25:00");
-
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_gray));
         titleText.setVisibility(View.GONE);
         titleEdit.setVisibility(View.VISIBLE);
         titleEdit.setText("");
 
-        if(saveIntoDatabase){
+        String maxTimeFormatted = Utils.millisecondsToFormattedString(Utils.getMaxMilliTaskTime(getActivity()));
+        circleProgressView.setText(maxTimeFormatted);
+        circleProgressView.setValue(0);
 
-        } else {
+        getActivity().unregisterReceiver(broadcastReceiver);
+        getActivity().stopService(countDownServiceIntent);
+
+        if(canceled){
             Toast.makeText(getContext(), R.string.timer_canceled, Toast.LENGTH_SHORT).show();
         }
     }
 
 
+    private void updateTimer(long milliseconds){
+        circleProgressView.setText(Utils.millisecondsToFormattedString(milliseconds));
+        circleProgressView.setValue(Utils.getPercentageOfTimeSpent(getActivity(), milliseconds));
+    }
 }

@@ -12,6 +12,7 @@ public class Dictionary {
     public static final String SERVICE_COUNTDOWN_INTENT_MAXTIME = "service_countdown_intent_maxtime";
     public static final String SERVICE_COUNTDOWN_INTENT_TITLE = "service_countdown_intent_title";
     public static final String SERVICE_COUNTDOWN_INTENT_TICK = "service_countdown_intent_activity_tick";
+    public static final String SERVICE_COUNTDOWN_INTENT_FINISHED = "service_countdown_intent_activity_finished";
 
 
     // the default interval of the tick capability from CountDown class
@@ -25,5 +26,9 @@ public class Dictionary {
     // paper key helper
     public static final String PAPER_KEY_POMODOROTASK = "paper_key_pomodorotask_";
     public static final String BOOK_KEY_POMODOROTASK = "paper_book_key_pomodorotask_";
+
+
+    // shared preferences
+    public static final String SHAREDPREFERENCES_MAXTIME_MILLISECONDS = "sharedpreferences_maxtime_milli";
 
 }

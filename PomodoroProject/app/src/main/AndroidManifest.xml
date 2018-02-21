@@ -9,7 +9,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".service.CountdownService"/>
+        <service
+            android:name=".service.CountdownService"
+            android:icon="@drawable/ic_app_round"
+            android:label="@string/service_coutdown_label"
+            android:exported="false"/>
 
         <activity
             android:name=".activity.SplashActivity"
