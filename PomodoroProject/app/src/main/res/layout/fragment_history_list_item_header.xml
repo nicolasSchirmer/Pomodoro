@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_history_list_header_title"
+    android:text="@string/history_lit_item_today"
+    android:textStyle="bold"
+    android:textColor="@color/progress_text_red"
+    android:paddingRight="@dimen/history_list_lateral_margin_header"
+    android:paddingLeft="@dimen/history_list_lateral_margin_header"
+    android:paddingTop="28dp"
+    android:textSize="24sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>

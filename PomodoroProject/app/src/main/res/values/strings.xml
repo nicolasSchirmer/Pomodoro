@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Pomodoro</string>
+
+    <string name="service_coutdown_label">Pomodoro countdown service</string>
+
+    <!-- bottom navigation menu items -->
+    <string name="bottommenu_title_timer">Timer</string>
+    <string name="bottommenu_title_history">History</string>
+
+    <!-- timer fragment -->
+    <string name="timer_progress_default_text">25:00</string>
+    <string name="timer_title_hint">GIVE ME A NAME</string>
+    <string name="timer_title_default">SOME TASK</string>
+    <string name="timer_canceled">For now, cancel work as pause\nI know… Shame on you dev</string>
+
+    <!-- history fragment -->
+    <string name="history_list_item_min_ago">%1$dm ago</string>
+    <string name="history_list_item_hour_ago">%1$dh ago</string>
+    <string name="history_list_item_am">%1$dam</string>
+    <string name="history_list_item_pm">%1$dpm</string>
+    <string name="history_lit_item_finished">Finished</string>
+    <string name="history_lit_item_stopped">Stopped</string>
+    <string name="history_lit_item_today">Today</string>
+    <string name="history_lit_item_yesterday">Yesterday</string>
+    <string name="history_list_item_time_spent">%1$dm</string>
+    <string name="history_list_item_status_completed">Completed</string>
+    <string name="history_list_item_status_stopped">Stopped</string>
+
+    <!-- notifications -->
+    <string name="notification_pause">Pause</string>
+    <string name="notification_ended_title">Congrats!</string>
+    <string name="notification_ended_content">You finished your task!</string>
+    <string name="notification_paused_title">Oh!</string>
+    <string name="notification_paused_content">That was quick!</string>
+
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottommenu_timer"
+        android:icon="@drawable/ic_timer"
+        android:title="@string/bottommenu_title_timer" />
+
+    <item
+        android:id="@+id/bottommenu_history"
+        android:icon="@drawable/ic_history"
+        android:title="@string/bottommenu_title_history" />
+
+</menu>

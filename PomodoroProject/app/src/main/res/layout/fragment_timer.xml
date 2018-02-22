@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray_light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <at.grabner.circleprogress.CircleProgressView
+        android:id="@+id/timer_circleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="60dp"
+        app:cpv_autoTextSize="true"
+        app:cpv_barColor="@color/progress_bar"
+        app:cpv_innerContourSize="1dp"
+        app:cpv_outerContourSize="1dp"
+        app:cpv_innerContourColor="@color/gray_kinda_light"
+        app:cpv_outerContourColor="@color/gray_kinda_light"
+        app:cpv_barColor1="@color/progress_bar1"
+        app:cpv_barColor2="@color/progress_bar2"
+        app:cpv_barWidth="5dp"
+        app:cpv_maxValue="100"
+        app:cpv_rimColor="@color/progress_rim"
+        app:cpv_rimWidth="5dp"
+        app:cpv_text="@string/timer_progress_default_text"
+        app:cpv_textColor="@color/progress_text_gray"
+        android:textAlignment="center"
+        app:cpv_textMode="Text"
+        app:cpv_textScale="1"
+        app:cpv_value="0"
+        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/timer_control"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <EditText
+        android:id="@+id/timer_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:inputType="textCapCharacters"
+        android:textAllCaps="true"
+        android:textColor="@color/gray"
+        android:gravity="center"
+        android:maxLines="1"
+        android:hint="@string/timer_title_hint"
+        android:textColorHint="@color/gray_kinda_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/timer_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/gray"
+        android:textAllCaps="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+
+</android.support.constraint.ConstraintLayout>
