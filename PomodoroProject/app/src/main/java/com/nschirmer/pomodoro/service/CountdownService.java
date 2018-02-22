@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.nschirmer.pomodoro.R;
 import com.nschirmer.pomodoro.db.HelperDB;
 import com.nschirmer.pomodoro.model.PomodoroTask;
 import com.nschirmer.pomodoro.util.Utils;
@@ -65,6 +66,21 @@ public class CountdownService extends Service {
                 if(pomodoroTask.hasValidTaskToSave() && !hasSaved) {
                     HelperDB.saveIntoDB(pomodoroTask);
                     hasSaved = true;
+
+                    if(pomodoroTask.isCompleted()) {
+                        Utils.pushNotification(CountdownService.this,
+                                getString(R.string.notification_ended_title),
+                                getString(R.string.notification_ended_content),
+                                0
+                        );
+
+                    } else {
+                        Utils.pushNotification(CountdownService.this,
+                                getString(R.string.notification_paused_title),
+                                getString(R.string.notification_paused_content),
+                                0
+                        );
+                    }
                 }
 
                 intentForActivity.putExtra(SERVICE_COUNTDOWN_INTENT_FINISHED, true);

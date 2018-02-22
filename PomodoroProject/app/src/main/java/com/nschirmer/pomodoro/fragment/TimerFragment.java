@@ -166,6 +166,7 @@ public class TimerFragment extends Fragment {
     @Override
     public void onDestroy() {
         stopCountdownService();
+        Utils.hideKeyboard(getContext(), titleEdit);
         super.onDestroy();
     }
 }

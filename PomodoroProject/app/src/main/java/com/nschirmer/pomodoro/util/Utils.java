@@ -1,11 +1,16 @@
 package com.nschirmer.pomodoro.util;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.nschirmer.pomodoro.R;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -74,12 +79,33 @@ public class Utils {
     }
 
 
-//    public static int getMinutesAgo(Timestamp timestamp){
-//
-//    }
-
-
     public static String getTimeAgo(Timestamp date){
         return String.valueOf(DateUtils.getRelativeTimeSpanString(date.getTime()));
+    }
+
+
+    public static void pushNotification(Context context, String title, String content, int versionID){
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context, Dictionary.NOTIFICATION_CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_app_round)
+                        .setContentTitle(title)
+                        .setContentText(content);
+
+//        if(timeIsRunning){
+//            notificationBuilder.addAction(R.drawable.ic_pause, context.getString(R.string.notification_pause), sIntent)
+//        }
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(notificationManager != null) {
+            notificationManager.notify(versionID, notificationBuilder.build());
+
+            vibrateForMilliseconds(context, 500);
+
+        }
+    }
+
+    public static void vibrateForMilliseconds(Context context, long milliseconds){
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibrator != null) vibrator.vibrate(milliseconds);
     }
 }

@@ -31,4 +31,8 @@ public class Dictionary {
     // shared preferences
     public static final String SHAREDPREFERENCES_MAXTIME_MILLISECONDS = "sharedpreferences_maxtime_milli";
 
+
+    // notification
+    public static final String NOTIFICATION_CHANNEL_ID = "notification_channel_id";
+
 }

@@ -1,7 +1,5 @@
 package com.nschirmer.pomodoro.model;
 
-import com.nschirmer.pomodoro.util.Utils;
-
 import java.sql.Timestamp;
 
 public class PomodoroTask {
@@ -34,7 +32,7 @@ public class PomodoroTask {
     }
 
     public Long getTimeSpentDoing() {
-        return hasCompleted() ? taskMaxTime : timeSpentDoing;
+        return isCompleted() ? taskMaxTime : timeSpentDoing;
     }
 
     public void setTimeSpentDoing(Long timeSpentDoing) {
@@ -53,7 +51,7 @@ public class PomodoroTask {
         return title != null && whenEnded != null && timeSpentDoing != null && taskMaxTime != null;
     }
 
-    public Boolean hasCompleted() {
+    public Boolean isCompleted() {
         return taskMaxTime - timeSpentDoing < 1000;
     }
 

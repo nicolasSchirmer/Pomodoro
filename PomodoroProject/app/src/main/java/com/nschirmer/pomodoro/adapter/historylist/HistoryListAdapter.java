@@ -62,7 +62,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
                 ViewHolderHistoryListTask view = (ViewHolderHistoryListTask) holder;
                 view.getTitle().setText(pomodoroTask.getTitle());
                 view.getTimeSpent().setText(Utils.millisecondsToFormattedString(pomodoroTask.getTimeSpentDoing()));
-                view.getStatus().setText(pomodoroTask.hasCompleted() ?
+                view.getStatus().setText(pomodoroTask.isCompleted() ?
                         context.getString(R.string.history_list_item_status_completed) :
                         context.getString(R.string.history_list_item_status_stopped)
                 );
