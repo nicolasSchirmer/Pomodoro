@@ -11,6 +11,7 @@ public class Dictionary {
     public static final String SERVICE_COUNTDOWN_TAG = "service_countdown_receiver";
     public static final String SERVICE_COUNTDOWN_INTENT_MAXTIME = "service_countdown_intent_maxtime";
     public static final String SERVICE_COUNTDOWN_INTENT_TITLE = "service_countdown_intent_title";
+    public static final String SERVICE_COUNTDOWN_INTENT_NEED_INTERVAL = "service_countdown_intent_need_interval";
     public static final String SERVICE_COUNTDOWN_INTENT_TICK = "service_countdown_intent_activity_tick";
     public static final String SERVICE_COUNTDOWN_INTENT_FINISHED = "service_countdown_intent_activity_finished";
 
@@ -21,7 +22,9 @@ public class Dictionary {
 
     // default minutes to pomodoro
     public static final int DEFAULT_TASK_MINUTES_MAXTIME = 25;
-
+    public static final int DEFAULT_TASK_MAX_COUNTER = 4;
+    public static final int DEFAULT_TASK_MINUTES_INTERVAL = 3;
+    public static final int DEFAULT_TASK_MINUTES_LONGER_INTERVAL = 15;
 
     // paper key helper
     public static final String PAPER_KEY_POMODOROTASK = "paper_key_pomodorotask_";
@@ -30,6 +33,9 @@ public class Dictionary {
 
     // shared preferences
     public static final String SHAREDPREFERENCES_MAXTIME_MILLISECONDS = "sharedpreferences_maxtime_milli";
+    public static final String SHAREDPREFERENCES_HAS_PENALTIE = "sharedpreferences_has_penaltie";
+    public static final String SHAREDPREFERENCES_INTERVAL_MILLISECONDS = "sharedpreferences_interval_milli";
+    public static final String SHAREDPREFERENCES_POMODORO_COUNT = "sharedpreferences_pomodoro_count";
 
 
     // notification

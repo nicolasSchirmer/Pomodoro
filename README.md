@@ -28,6 +28,7 @@ Accordingly to [Wikipedia](https://en.wikipedia.org/wiki/Pomodoro_Technique). Th
 - [ ] Scheduler and reminders
 - [ ] Better animations
 - [ ] Androi Wear support
+- [ ] Delete a task from the history
 - [ ] Night mode
 - [ ] User chose color
 - [ ] Change tasks break intervals
