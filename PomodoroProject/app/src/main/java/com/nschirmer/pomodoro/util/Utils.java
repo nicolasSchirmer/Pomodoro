@@ -5,17 +5,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.nschirmer.pomodoro.R;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -34,15 +34,15 @@ public class Utils {
     }
 
 
-    public static void saveMaxMilliTaskTime(Activity activity, long milliseconds){
-        activity.getSharedPreferences(activity.getPackageName(), MODE_PRIVATE)
+    public static void saveMaxMilliTaskTime(Context context, long milliseconds){
+        context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE)
                 .edit().putLong(Dictionary.SHAREDPREFERENCES_MAXTIME_MILLISECONDS, milliseconds)
                 .apply();
     }
 
 
-    public static long getMaxMilliTaskTime(Activity activity){
-        return activity.getSharedPreferences(activity.getPackageName(), MODE_PRIVATE)
+    public static long getMaxMilliTaskTime(Context context){
+        return context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE)
                 .getLong(Dictionary.SHAREDPREFERENCES_MAXTIME_MILLISECONDS,
                         minutesToMilliseconds(Dictionary.DEFAULT_TASK_MINUTES_MAXTIME)
                 );
@@ -58,8 +58,8 @@ public class Utils {
     }
 
 
-    public static int getPercentageOfTimeSpent(Activity activity, long milliSpent){
-        return (int) ((milliSpent * 100) / getMaxMilliTaskTime(activity));
+    public static int getPercentageOfTimeSpent(Context context, long milliSpent){
+        return (int) ((milliSpent * 100) / getMaxMilliTaskTime(context));
     }
 
 
@@ -107,5 +107,36 @@ public class Utils {
     public static void vibrateForMilliseconds(Context context, long milliseconds){
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if(vibrator != null) vibrator.vibrate(milliseconds);
+    }
+
+
+    public static void savePenaltiesStatus(Context context, long interval, int pomodoroCount){
+        context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE).edit()
+                .putLong(Dictionary.SHAREDPREFERENCES_INTERVAL_MILLISECONDS, interval)
+                .putInt(Dictionary.SHAREDPREFERENCES_POMODORO_COUNT, pomodoroCount)
+                .apply();
+    }
+
+
+    public static boolean ableToPomodoro(Context context){
+        return getSavedIntervalMilli(context) < 100 && getSavedPomodoroCount(context) < Dictionary.DEFAULT_TASK_MAX_COUNTER;
+    }
+
+
+    public static long getSavedIntervalMilli(Context context){
+        return context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE)
+                .getLong(Dictionary.SHAREDPREFERENCES_INTERVAL_MILLISECONDS, 0);
+    }
+
+    public static int getSavedPomodoroCount(Context context){
+        return context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE)
+                .getInt(Dictionary.SHAREDPREFERENCES_POMODORO_COUNT, 0);
+    }
+
+
+    public static void setIconColor(Context context, ImageView view, int colorResource){
+        view.setColorFilter(
+                ContextCompat.getColor(context, colorResource),
+                android.graphics.PorterDuff.Mode.SRC_IN);
     }
 }

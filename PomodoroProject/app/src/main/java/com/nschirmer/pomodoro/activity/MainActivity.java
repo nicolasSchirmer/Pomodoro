@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // save in minutes the default task time
-        Utils.saveMaxMilliTaskTime(this, Utils.minutesToMilliseconds(1));
+        Utils.saveMaxMilliTaskTime(this, Utils.minutesToMilliseconds(25));
 
         startFragment(new FragmentHelper(new TimerFragment(), Dictionary.FRAGMENT_TAG_TIMER));
     }

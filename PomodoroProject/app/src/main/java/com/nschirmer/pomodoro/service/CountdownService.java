@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import com.nschirmer.pomodoro.R;
 import com.nschirmer.pomodoro.db.HelperDB;
 import com.nschirmer.pomodoro.model.PomodoroTask;
+import com.nschirmer.pomodoro.util.Dictionary;
 import com.nschirmer.pomodoro.util.Utils;
 
 import java.sql.Timestamp;
@@ -20,7 +21,7 @@ public class CountdownService extends Service {
 
     private PomodoroTask pomodoroTask = new PomodoroTask();
     private CountDownTimer countDownTimer;
-    private boolean hasSaved = false;
+    private boolean hasSaved = false, isInterval, onDestroy = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -31,6 +32,11 @@ public class CountdownService extends Service {
         long maxTimeMilli = intent.getLongExtra(
                 SERVICE_COUNTDOWN_INTENT_MAXTIME,
                 Utils.minutesToMilliseconds(DEFAULT_TASK_MINUTES_MAXTIME)
+        );
+
+        isInterval = intent.getBooleanExtra(
+                Dictionary.SERVICE_COUNTDOWN_INTENT_NEED_INTERVAL,
+                false
         );
 
         pomodoroTask.setTaskMaxTime(maxTimeMilli);
@@ -49,44 +55,56 @@ public class CountdownService extends Service {
         countDownTimer = new CountDownTimer(maxTimeMilli, SERVICE_COUNTDOWN_TICK_INTERVAL) {
             @Override
             public void onTick(long millisSpent) {
-                pomodoroTask.setTimeSpentDoing(pomodoroTask.getTaskMaxTime() - millisSpent);
+                if(! isInterval){
+                    pomodoroTask.setTimeSpentDoing(pomodoroTask.getTaskMaxTime() - millisSpent);
 
-                intentForActivity.putExtra(
-                        SERVICE_COUNTDOWN_INTENT_TICK,
-                        millisSpent
-                );
+                    intentForActivity.putExtra(
+                            SERVICE_COUNTDOWN_INTENT_TICK,
+                            millisSpent
+                    );
 
-                sendBroadcast(intentForActivity);
+                    sendBroadcast(intentForActivity);
+                }
             }
 
             @Override
             public void onFinish() {
                 pomodoroTask.setWhenEnded(new Timestamp(System.currentTimeMillis()));
 
-                if(pomodoroTask.hasValidTaskToSave() && !hasSaved) {
+                if(isInterval && !onDestroy){
+                    Utils.pushNotification(CountdownService.this,
+                            getString(R.string.notification_interval_over_title),
+                            getString(R.string.notification_interval_over_content),
+                            0
+                    );
+
+                } else if (pomodoroTask.hasValidTaskToSave() && !hasSaved) {
                     HelperDB.saveIntoDB(pomodoroTask);
                     hasSaved = true;
 
-                    if(pomodoroTask.isCompleted()) {
-                        Utils.pushNotification(CountdownService.this,
-                                getString(R.string.notification_ended_title),
-                                getString(R.string.notification_ended_content),
-                                0
-                        );
+                    if(! onDestroy) {
+                        if (pomodoroTask.isCompleted()) {
+                            Utils.pushNotification(CountdownService.this,
+                                    getString(R.string.notification_ended_title),
+                                    getString(R.string.notification_ended_content),
+                                    0
+                            );
 
-                    } else {
-                        Utils.pushNotification(CountdownService.this,
-                                getString(R.string.notification_paused_title),
-                                getString(R.string.notification_paused_content),
-                                0
-                        );
+                        } else {
+                            Utils.pushNotification(CountdownService.this,
+                                    getString(R.string.notification_paused_title),
+                                    getString(R.string.notification_paused_content),
+                                    0
+                            );
+                        }
                     }
                 }
 
                 intentForActivity.putExtra(SERVICE_COUNTDOWN_INTENT_FINISHED, true);
+                intentForActivity.putExtra(SERVICE_COUNTDOWN_INTENT_NEED_INTERVAL, isInterval);
                 sendBroadcast(intentForActivity);
 
-                countDownTimer.cancel();
+                if(countDownTimer != null) countDownTimer.cancel();
             }
         }.start();
     }
@@ -94,7 +112,10 @@ public class CountdownService extends Service {
 
     @Override
     public void onDestroy() {
-        if(countDownTimer != null) countDownTimer.onFinish();
+        if(countDownTimer != null) {
+            onDestroy = true;
+            countDownTimer.onFinish();
+        }
 
         super.onDestroy();
     }
