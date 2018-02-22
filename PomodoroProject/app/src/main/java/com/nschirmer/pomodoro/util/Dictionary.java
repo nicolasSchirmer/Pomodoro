@@ -16,7 +16,7 @@ public class Dictionary {
 
 
     // the default interval of the tick capability from CountDown class
-    public static final long SERVICE_COUNTDOWN_TICK_INTERVAL = 1000; // 1 second
+    public static final long SERVICE_COUNTDOWN_TICK_INTERVAL = 500; // 1 second
 
 
     // default minutes to pomodoro

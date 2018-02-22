@@ -2,9 +2,15 @@ package com.nschirmer.pomodoro.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +52,34 @@ public class Utils {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)));
     }
 
+
     public static int getPercentageOfTimeSpent(Activity activity, long milliSpent){
         return (int) ((milliSpent * 100) / getMaxMilliTaskTime(activity));
+    }
+
+
+    public static String getPrettyDateFromTimestamp(Timestamp timestamp){
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        return DateFormat.format("dd/MM/yyyy", cal).toString();
+    }
+
+
+    public static boolean isToday(Timestamp timestamp){
+        return DateUtils.isToday(timestamp.getTime());
+    }
+
+
+    public static boolean isYesterday(Timestamp timestamp){
+        return DateUtils.isToday(timestamp.getTime() + DateUtils.DAY_IN_MILLIS);
+    }
+
+
+//    public static int getMinutesAgo(Timestamp timestamp){
+//
+//    }
+
+
+    public static String getTimeAgo(Timestamp date){
+        return String.valueOf(DateUtils.getRelativeTimeSpanString(date.getTime()));
     }
 }

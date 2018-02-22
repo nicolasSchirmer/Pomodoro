@@ -31,7 +31,7 @@ public class ViewHolderHistoryListTask extends RecyclerView.ViewHolder {
         return timeAgo;
     }
 
-    public TextView getState() {
+    public TextView getStatus() {
         return state;
     }
 }

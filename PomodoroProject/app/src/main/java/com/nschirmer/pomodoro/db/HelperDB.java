@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import io.paperdb.Paper;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
@@ -45,7 +46,7 @@ public class HelperDB extends PaperHelper {
         if(object instanceof PomodoroTask){
             saveObjectToDB(
                     BOOK_KEY_POMODOROTASK,
-                    PAPER_KEY_POMODOROTASK + ((PomodoroTask) object).getID(),
+                    ((PomodoroTask) object).getID(),
                     object,
                     saveListener
             );
@@ -81,12 +82,16 @@ public class HelperDB extends PaperHelper {
         void finishReading(PomodoroTask pomodoroTask);
     }
 
+    public interface PomodoroListReaderListener {
+        void finishReading(List<PomodoroTask> pomodoroTasks);
+    }
+
     /** @param pomodoroReaderListener
      *
      * when the paper finish to read all the data you can catch the object with this listener
      * **/
     public static void readPomodoroTaskFromDB(String pomodoroKey, final PomodoroReaderListener pomodoroReaderListener){
-        getObjectFromPaper(BOOK_KEY_POMODOROTASK, PAPER_KEY_POMODOROTASK + pomodoroKey, new DisposableSingleObserver<Object>() {
+        getObjectFromPaper(BOOK_KEY_POMODOROTASK, pomodoroKey, new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(Object object) {
                 pomodoroReaderListener.finishReading((PomodoroTask) object);
@@ -104,37 +109,50 @@ public class HelperDB extends PaperHelper {
     }
 
 
-    private static List<String> keysToRead = new ArrayList<>();
+    // TODO temporary
     public static List<PomodoroTask> getAllPomodoroTasksFromDB(){
-        keysToRead.clear();
-        keysToRead = getAllPomodoroTasksKeysFromDB();
-        return getPomodoroTasksFromPaper(new ArrayList<PomodoroTask>());
-    }
-
-
-    private static List<PomodoroTask> getPomodoroTasksFromPaper(final List<PomodoroTask> pomodoroTasks){
-        if(! keysToRead.isEmpty()){
-            final String key = keysToRead.get(keysToRead.size() - 1);
-
-            readPomodoroTaskFromDB(PAPER_KEY_POMODOROTASK + key, new PomodoroReaderListener() {
-                @Override
-                public void finishReading(PomodoroTask pomodoroTask) {
-                    pomodoroTasks.add(pomodoroTask);
-                    keysToRead.remove(key);
-                    getPomodoroTasksFromPaper(pomodoroTasks);
-                }
-            });
+        List<PomodoroTask> pomodoroTasks = new ArrayList<>();
+        for(String key : getAllPomodoroTasksKeysFromDB()){
+            pomodoroTasks.add((PomodoroTask) Paper.book(BOOK_KEY_POMODOROTASK).read(key));
         }
 
         return pomodoroTasks;
     }
 
 
+    // TODO fix
+//    private static List<String> keysToRead = new ArrayList<>();
+//    public static void getAllPomodoroTasksFromDB(PomodoroListReaderListener pomodoroListReaderListener){
+//        keysToRead.clear();
+//        keysToRead = getAllPomodoroTasksKeysFromDB();
+//        getPomodoroTasksFromPaper(new ArrayList<PomodoroTask>(), pomodoroListReaderListener);
+//    }
+//
+//
+//    private static void getPomodoroTasksFromPaper(final List<PomodoroTask> pomodoroTasks, final PomodoroListReaderListener pomodoroListReaderListener){
+//        if(! keysToRead.isEmpty()){
+//            final String key = keysToRead.get(keysToRead.size() - 1);
+//
+//            readPomodoroTaskFromDB(key, new PomodoroReaderListener() {
+//                @Override
+//                public void finishReading(PomodoroTask pomodoroTask) {
+//                    pomodoroTasks.add(pomodoroTask);
+//                    keysToRead.remove(key);
+//                    getPomodoroTasksFromPaper(pomodoroTasks, pomodoroListReaderListener);
+//                }
+//            });
+//
+//        } else {
+//            pomodoroListReaderListener.finishReading(pomodoroTasks);
+//        }
+//    }
+
+
     /**
      *****************  DELETE  *****************
      * **/
     public static void deletePomodoroTaskFromDB(String pomodoroKey){
-        deleteObjectFromPaper(BOOK_KEY_POMODOROTASK, PAPER_KEY_POMODOROTASK + pomodoroKey, new CompletableObserver() {
+        deleteObjectFromPaper(BOOK_KEY_POMODOROTASK, pomodoroKey, new CompletableObserver() {
             @Override
             public void onSubscribe(Disposable d) {}
 

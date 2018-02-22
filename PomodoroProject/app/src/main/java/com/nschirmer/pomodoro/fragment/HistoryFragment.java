@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 
 import com.nschirmer.pomodoro.R;
 import com.nschirmer.pomodoro.adapter.historylist.HistoryListAdapter;
+import com.nschirmer.pomodoro.db.HelperDB;
 import com.nschirmer.pomodoro.model.PomodoroTask;
+import com.nschirmer.pomodoro.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +34,36 @@ public class HistoryFragment extends Fragment {
 
         historyList = (RecyclerView) view.findViewById(R.id.history_list_recycler);
 
-        List<PomodoroTask> tasks = new ArrayList<>();
-        tasks.add(new PomodoroTask());
-        tasks.add(new PomodoroTask());
-        tasks.add(new PomodoroTask());
-        tasks.add(new PomodoroTask());
-        tasks.add(new PomodoroTask());
-        tasks.add(new PomodoroTask());
+        List<PomodoroTask> pomodoroTasks = HelperDB.getAllPomodoroTasksFromDB();
 
-        historyList.setAdapter(new HistoryListAdapter(getContext(), tasks));
+        List<Object> pomodoroWithHeaders = organizeListWithHeaders(pomodoroTasks);
+
+        historyList.setAdapter(new HistoryListAdapter(getContext(), pomodoroWithHeaders));
         historyList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    }
+
+
+    private List<Object> organizeListWithHeaders(List<PomodoroTask> pomodoroTasks){
+        List<Object> listWithHeaders = new ArrayList<>();
+
+        boolean hasTodayHeader = false, hasYesterdayHeader = false;
+
+        for(PomodoroTask pomodoroTask : pomodoroTasks) {
+            if(Utils.isToday(pomodoroTask.getWhenEnded()) && ! hasTodayHeader){
+                listWithHeaders.add(getContext().getString(R.string.history_lit_item_today));
+                hasTodayHeader = true;
+
+            } else if(Utils.isYesterday(pomodoroTask.getWhenEnded()) && ! hasYesterdayHeader){
+                listWithHeaders.add(getContext().getString(R.string.history_lit_item_yesterday));
+                hasYesterdayHeader = true;
+
+            } else if(! Utils.isYesterday(pomodoroTask.getWhenEnded()) && ! hasYesterdayHeader && ! hasTodayHeader) {
+                listWithHeaders.add(Utils.getPrettyDateFromTimestamp(pomodoroTask.getWhenEnded()));
+            }
+
+            listWithHeaders.add(pomodoroTask);
+        }
+
+        return listWithHeaders;
     }
 }

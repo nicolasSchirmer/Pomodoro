@@ -11,12 +11,15 @@ import com.nschirmer.pomodoro.db.HelperDB;
 import com.nschirmer.pomodoro.model.PomodoroTask;
 import com.nschirmer.pomodoro.util.Utils;
 
+import java.sql.Timestamp;
+
 import static com.nschirmer.pomodoro.util.Dictionary.*;
 
 public class CountdownService extends Service {
 
     private PomodoroTask pomodoroTask = new PomodoroTask();
     private CountDownTimer countDownTimer;
+    private boolean hasSaved = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -29,13 +32,15 @@ public class CountdownService extends Service {
                 Utils.minutesToMilliseconds(DEFAULT_TASK_MINUTES_MAXTIME)
         );
 
+        pomodoroTask.setTaskMaxTime(maxTimeMilli);
+
         startCountdown(maxTimeMilli);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
 
-    private void startCountdown(long maxTimeMilli){
+    private void startCountdown(final long maxTimeMilli){
         // prepare the intent to send back the time spent
         final Intent intentForActivity = new Intent(SERVICE_COUNTDOWN_TAG);
 
@@ -43,7 +48,7 @@ public class CountdownService extends Service {
         countDownTimer = new CountDownTimer(maxTimeMilli, SERVICE_COUNTDOWN_TICK_INTERVAL) {
             @Override
             public void onTick(long millisSpent) {
-                pomodoroTask.setTimeSpentDoing(millisSpent);
+                pomodoroTask.setTimeSpentDoing(pomodoroTask.getTaskMaxTime() - millisSpent);
 
                 intentForActivity.putExtra(
                         SERVICE_COUNTDOWN_INTENT_TICK,
@@ -55,12 +60,15 @@ public class CountdownService extends Service {
 
             @Override
             public void onFinish() {
+                pomodoroTask.setWhenEnded(new Timestamp(System.currentTimeMillis()));
+
+                if(pomodoroTask.hasValidTaskToSave() && !hasSaved) {
+                    HelperDB.saveIntoDB(pomodoroTask);
+                    hasSaved = true;
+                }
+
                 intentForActivity.putExtra(SERVICE_COUNTDOWN_INTENT_FINISHED, true);
                 sendBroadcast(intentForActivity);
-
-                if(pomodoroTask.hasValidTaskToSave()) {
-                    HelperDB.saveIntoDB(pomodoroTask);
-                }
 
                 countDownTimer.cancel();
             }

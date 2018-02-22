@@ -7,29 +7,29 @@ import android.view.ViewGroup;
 
 import com.nschirmer.pomodoro.R;
 import com.nschirmer.pomodoro.model.PomodoroTask;
+import com.nschirmer.pomodoro.util.Utils;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryListAdapter extends RecyclerView.Adapter {
 
-    private List<PomodoroTask> pomodoroTasks = new ArrayList<>();
+    private List<Object> pomodoroTasksWithHeader = new ArrayList<>();
     private Context context;
 
 
-    public HistoryListAdapter(Context context, List<PomodoroTask> pomodoroTasks){
-        this.pomodoroTasks = pomodoroTasks;
+    public HistoryListAdapter(Context context, List<Object> pomodoroTasksWithHeaders){
+        this.pomodoroTasksWithHeader = pomodoroTasksWithHeaders;
         this.context = context;
     }
 
 
     @Override
     public int getItemViewType(int position) {
-
-        // TODO
-        if(position == 0) return 0;
-
-        return 1;
+        // if is header (just a String) the view type is 0 = HEADER
+        // if is the pomodoroTask object the view type is 1
+        return pomodoroTasksWithHeader.get(position) instanceof String ? 0 : 1;
     }
 
 
@@ -49,9 +49,29 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (HistoryListViewType.values()[holder.getItemViewType()]){
             case HEADER:
+                ViewHolderHistoryListHeader viewHeader = (ViewHolderHistoryListHeader) holder;
+
+                String title = (String) pomodoroTasksWithHeader.get(position);
+                viewHeader.getHeaderTitle().setText(title);
+
                 break;
 
             default:
+                PomodoroTask pomodoroTask = (PomodoroTask) pomodoroTasksWithHeader.get(position);
+
+                ViewHolderHistoryListTask view = (ViewHolderHistoryListTask) holder;
+                view.getTitle().setText(pomodoroTask.getTitle());
+                view.getTimeSpent().setText(Utils.millisecondsToFormattedString(pomodoroTask.getTimeSpentDoing()));
+                view.getStatus().setText(pomodoroTask.hasCompleted() ?
+                        context.getString(R.string.history_list_item_status_completed) :
+                        context.getString(R.string.history_list_item_status_stopped)
+                );
+
+                Timestamp whenEnded = pomodoroTask.getWhenEnded();
+                String dateStringWhenEnded = Utils.getTimeAgo(whenEnded);
+
+                view.getTimeAgo().setText(dateStringWhenEnded);
+
                 break;
         }
     }
@@ -59,7 +79,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        // TODO calcular quantidade de headers
-        return pomodoroTasks.size() +1;
+        return pomodoroTasksWithHeader.size();
     }
 }

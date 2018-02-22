@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,8 +31,8 @@ public class TimerFragment extends Fragment {
     private EditText titleEdit;
     private TextView titleText;
     private Intent countDownServiceIntent;
-
-    boolean isRunning = false;
+    private boolean isRunning = false;
+    private String taskTitle;
 
 
     @Override
@@ -90,16 +88,12 @@ public class TimerFragment extends Fragment {
         circleProgressView.setTextColor(ContextCompat.getColor(getContext(), R.color.progress_text_red));
         String title = titleEdit.getText().toString();
         titleText.setText(title.isEmpty() ? getString(R.string.timer_title_default) : title);
-        title = titleText.getText().toString();
+        taskTitle = titleText.getText().toString();
         titleText.setVisibility(View.VISIBLE);
         titleEdit.setVisibility(View.GONE);
         Utils.hideKeyboard(getContext(), titleEdit);
 
-        // start the countdown
-        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_TITLE , title);
-        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_MAXTIME, Utils.getMaxMilliTaskTime(getActivity()));
-        getActivity().startService(countDownServiceIntent);
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Dictionary.SERVICE_COUNTDOWN_TAG));
+        startCountdownService();
     }
 
 
@@ -112,7 +106,6 @@ public class TimerFragment extends Fragment {
                         Dictionary.SERVICE_COUNTDOWN_INTENT_TICK,
                         Utils.getMaxMilliTaskTime(getActivity()))
                 );
-
 
                 if(intent.getBooleanExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_FINISHED, false)){
                     stopCountDown(false);
@@ -139,11 +132,11 @@ public class TimerFragment extends Fragment {
         circleProgressView.setText(maxTimeFormatted);
         circleProgressView.setValue(0);
 
-        getActivity().unregisterReceiver(broadcastReceiver);
-        getActivity().stopService(countDownServiceIntent);
+        stopCountdownService();
 
         if(canceled){
             Toast.makeText(getContext(), R.string.timer_canceled, Toast.LENGTH_SHORT).show();
+            //stopCountdownService(); // TODO
         }
     }
 
@@ -151,5 +144,28 @@ public class TimerFragment extends Fragment {
     private void updateTimer(long milliseconds){
         circleProgressView.setText(Utils.millisecondsToFormattedString(milliseconds));
         circleProgressView.setValue(Utils.getPercentageOfTimeSpent(getActivity(), milliseconds));
+    }
+
+
+    private void startCountdownService(){
+        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_TITLE , taskTitle);
+        countDownServiceIntent.putExtra(Dictionary.SERVICE_COUNTDOWN_INTENT_MAXTIME, Utils.getMaxMilliTaskTime(getActivity()));
+        getActivity().startService(countDownServiceIntent);
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Dictionary.SERVICE_COUNTDOWN_TAG));
+    }
+
+
+    private void stopCountdownService(){
+        try {
+            getActivity().unregisterReceiver(broadcastReceiver);
+            getActivity().stopService(countDownServiceIntent);
+        } catch (Exception e){}
+    }
+
+
+    @Override
+    public void onDestroy() {
+        stopCountdownService();
+        super.onDestroy();
     }
 }

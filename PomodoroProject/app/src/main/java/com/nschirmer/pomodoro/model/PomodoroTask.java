@@ -1,5 +1,7 @@
 package com.nschirmer.pomodoro.model;
 
+import com.nschirmer.pomodoro.util.Utils;
+
 import java.sql.Timestamp;
 
 public class PomodoroTask {
@@ -11,15 +13,8 @@ public class PomodoroTask {
 
     public PomodoroTask(){}
 
-    public PomodoroTask(String title, Timestamp whenEnded, Long timeSpentDoing, Long taskMaxTime) {
-        this.title = title;
-        this.whenEnded = whenEnded;
-        this.timeSpentDoing = timeSpentDoing;
-        this.taskMaxTime = taskMaxTime;
-    }
-
-    public Long getID(){
-        return whenEnded.getTime();
+    public String getID(){
+        return String.valueOf(whenEnded.getTime());
     }
 
     public String getTitle() {
@@ -39,7 +34,7 @@ public class PomodoroTask {
     }
 
     public Long getTimeSpentDoing() {
-        return timeSpentDoing;
+        return hasCompleted() ? taskMaxTime : timeSpentDoing;
     }
 
     public void setTimeSpentDoing(Long timeSpentDoing) {
@@ -57,4 +52,9 @@ public class PomodoroTask {
     public boolean hasValidTaskToSave(){
         return title != null && whenEnded != null && timeSpentDoing != null && taskMaxTime != null;
     }
+
+    public Boolean hasCompleted() {
+        return taskMaxTime - timeSpentDoing < 1000;
+    }
+
 }

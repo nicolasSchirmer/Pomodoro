@@ -14,18 +14,32 @@ Accordingly to [Wikipedia](https://en.wikipedia.org/wiki/Pomodoro_Technique). Th
 
 - Create Pomodoro tasks of 25 minutes max
 - Save all your taks done in one place
-- Cancel a taks anytime you want
+- Pausel and cancel taks anytime you want
 - Organize your tasks given names to them
 - Control your task just using the notification area
 
 
 ### TO-DOS
 
-- [ ] More flexible maximum time
+- [ ] Work independently on background process
+- [ ] Play and pause on notifications
+- [ ] Change maximum time for a task
 - [ ] Organize tasks by subject
 - [ ] Scheduler and reminders
 - [ ] Better animations
+- [ ] Androi Wear support
+- [ ] Night mode
+- [ ] User chose color
+- [ ] Change tasks break intervals
+- [ ] Change alarm and vibration patterns
+- [ ] Group of tasks
 - [ ] Google Account / Facebook / email  integration to save the tasks into the cloud
+- [ ] Slack and trello integration
+- [ ] Google assistant integration
+- [ ] Teams interaction
+- [ ] Save default tasks
+
+
 
 
 
