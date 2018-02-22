@@ -241,14 +241,16 @@ public class TimerFragment extends Fragment {
         } catch (Exception e){}
     }
 
+    
+
     @Override
-    public void onPause() {
+    public void onDestroy() {
         Utils.savePenaltiesStatus(getActivity(), intervalTimeMilli, pomodorosCount);
         Utils.hideKeyboard(getActivity(), titleEdit);
 
         getActivity().unregisterReceiver(broadcastReceiver);
         getActivity().stopService(countDownServiceIntent);
 
-        super.onPause();
+        super.onDestroy();
     }
 }
